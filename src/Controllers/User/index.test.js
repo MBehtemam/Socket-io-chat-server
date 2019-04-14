@@ -1,8 +1,8 @@
 const {
     addUser,
     removeUser,
-    isUserNameExistsByUserName,
-    isUserNameExistsById,
+    isUserNameExists,
+    changeUserNameById,
 } = require('./index')
 
 describe('Test suits for addUser', () => {
@@ -35,24 +35,22 @@ describe('Test suits for isUserNameExistsByUserName', () => {
     const userNameNotExists = 'notusername'
     const connectedUsers = { 'guest-110': { username: usernameExists } }
     test('that list has username', () => {
-        expect(
-            isUserNameExistsByUserName(usernameExists, connectedUsers)
-        ).toBeTruthy()
+        expect(isUserNameExists(usernameExists, connectedUsers)).toBeTruthy()
     })
     test('that list has not this user', () => {
-        expect(
-            isUserNameExistsByUserName(userNameNotExists, connectedUsers)
-        ).toBeFalsy()
+        expect(isUserNameExists(userNameNotExists, connectedUsers)).toBeFalsy()
     })
 })
-describe('Test suits for isUserNameExistsById', () => {
-    const existsId = 'guest-110'
-    const notExistsId = 'guest-111'
-    const connectedUsers = { 'guest-110': { username: 'someuser' } }
-    test('that list has username', () => {
-        expect(isUserNameExistsById(existsId, connectedUsers)).toBeTruthy()
-    })
-    test('that list has not this user', () => {
-        expect(isUserNameExistsById(notExistsId, connectedUsers)).toBeFalsy()
-    })
+
+describe('Test suits for change username by id', () => {
+    const userId = 'someid'
+    const username = 'guest-110'
+    const newusername = 'guest-112'
+    const existUserName = 'guest-111'
+    let connectedUsers = { [userId]: { username } }
+    test('it should change the username', () =>
+        expect(
+            changeUserNameById(userId, newusername, connectedUsers)[userId]
+                .username
+        ).toBe(newusername))
 })

@@ -34,17 +34,10 @@ const removeUser = (socketId, connectedUsers) => {
  * @param {String} username username of user that we want to check is it exists or not
  * @param {Object} connectedUsers list of all connected users
  */
-const isUserNameExistsByUserName = (username, connectedUsers) =>
+const isUserNameExists = (username, connectedUsers) =>
     Object.keys(connectedUsers).some(
         u => connectedUsers[u].username === username
     )
-/**
- * isUserNameExistsById
- * check is given id exists in connected in users or not
- * @param {String} id
- * @param {Object} connectedUsers
- */
-const isUserNameExistsById = (id, connectedUsers) => id in connectedUsers
 
 /**
  * changeUserNameById
@@ -54,7 +47,7 @@ const isUserNameExistsById = (id, connectedUsers) => id in connectedUsers
  * @param {Object} connectedUsers list of connected users
  */
 const changeUserNameById = (userId, newUserName, connectedUsers) => {
-    if (isUserNameExistsById(userId, connectedUsers)) {
+    if (isUserNameExists(newUserName, connectedUsers)) {
         throw new Error('username is taken')
     } else {
         let newList = {
@@ -64,12 +57,12 @@ const changeUserNameById = (userId, newUserName, connectedUsers) => {
                 username: newUserName,
             },
         }
+        return newList
     }
 }
 module.exports = {
     addUser,
     removeUser,
-    isUserNameExistsByUserName,
-    isUserNameExistsById,
+    isUserNameExists,
     changeUserNameById,
 }
