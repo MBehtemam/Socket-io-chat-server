@@ -7,15 +7,16 @@ const nanoid = require('nanoid')
  * @returns new connected users list that contain new user
  */
 const addUser = (socketId, connectedUsers) => {
-    if (!socketId) throw new Error('You must pass the socket id')
-    if (socketId in connectedUsers)
-        throw new Error('User already exist in connected users')
-    return {
-        ...connectedUsers,
-        [socketId]: {
-            username: `guest-${nanoid(5)}`,
-        },
-    }
+  if (!socketId) throw new Error('You must pass the socket id')
+  if (socketId in connectedUsers)
+    throw new Error('User already exist in connected users')
+  return {
+    ...connectedUsers,
+    [socketId]: {
+      userId: socketId,
+      username: `guest-${nanoid(5)}`,
+    },
+  }
 }
 /**
  * removeUser
@@ -24,9 +25,9 @@ const addUser = (socketId, connectedUsers) => {
  * @param {Object} connectedUsers list of connected users
  */
 const removeUser = (socketId, connectedUsers) => {
-    const newList = { ...connectedUsers }
-    delete newList[socketId]
-    return newList
+  const newList = { ...connectedUsers }
+  delete newList[socketId]
+  return newList
 }
 /**
  * isUserNameExistsByUserName
@@ -35,9 +36,7 @@ const removeUser = (socketId, connectedUsers) => {
  * @param {Object} connectedUsers list of all connected users
  */
 const isUserNameExists = (username, connectedUsers) =>
-    Object.keys(connectedUsers).some(
-        u => connectedUsers[u].username === username
-    )
+  Object.keys(connectedUsers).some(u => connectedUsers[u].username === username)
 
 /**
  * changeUserNameById
@@ -47,22 +46,22 @@ const isUserNameExists = (username, connectedUsers) =>
  * @param {Object} connectedUsers list of connected users
  */
 const changeUserNameById = (userId, newUserName, connectedUsers) => {
-    if (isUserNameExists(newUserName, connectedUsers)) {
-        throw new Error('username is taken')
-    } else {
-        let newList = {
-            ...connectedUsers,
-            [userId]: {
-                ...connectedUsers[userId],
-                username: newUserName,
-            },
-        }
-        return newList
+  if (isUserNameExists(newUserName, connectedUsers)) {
+    throw new Error('username is taken')
+  } else {
+    let newList = {
+      ...connectedUsers,
+      [userId]: {
+        ...connectedUsers[userId],
+        username: newUserName,
+      },
     }
+    return newList
+  }
 }
 module.exports = {
-    addUser,
-    removeUser,
-    isUserNameExists,
-    changeUserNameById,
+  addUser,
+  removeUser,
+  isUserNameExists,
+  changeUserNameById,
 }
