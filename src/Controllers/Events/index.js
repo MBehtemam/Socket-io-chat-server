@@ -2,7 +2,6 @@ const UserControllers = require('../User/index')
 const Events = require('../../Constants/Events')
 
 const join = ({ socket, connectedUsers }) => {
-    console.log(typeof connectedUsers)
     try {
         connectedUsers = UserControllers.addUser(socket.id, connectedUsers)
 
