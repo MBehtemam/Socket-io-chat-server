@@ -2,10 +2,12 @@ const UserControllers = require('../User/index')
 const Events = require('../../Constants/Events')
 
 const join = ({ socket, connectedUsers }) => {
+    console.log(typeof connectedUsers)
     try {
         connectedUsers = UserControllers.addUser(socket.id, connectedUsers)
+
         //send user object to joined
-        socket.emit(Events.JOIN, {
+        socket.emit(Events.CLIENT_JOIN, {
             ok: 1,
             data: {
                 user: connectedUsers[socket.id],
@@ -16,8 +18,8 @@ const join = ({ socket, connectedUsers }) => {
             ok: 1,
             data: { user: connectedUsers[socket.id] },
         })
-        return connectedUsers
     } catch (err) {
+        console.log(err)
         socket.emit(Events.JOIN, {
             ok: 0,
             data: {
@@ -25,6 +27,7 @@ const join = ({ socket, connectedUsers }) => {
             },
         })
     }
+    return connectedUsers
 }
 
 const disconnect = ({ socket, connectedUsers }) => {

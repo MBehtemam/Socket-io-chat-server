@@ -5,10 +5,10 @@ const io = require('socket.io')(http)
 const Events = require('./Constants/Events')
 const EventsController = require('./Controllers/Events')
 
-let connectedUsers = {}
-
 io.on(Events.CONNECTION, socket => {
-    socket.on(Events.JOIN, () => {
+    let connectedUsers = {}
+    socket.on(Events.CLIENT_JOIN, () => {
+        console.log(typeof connectedUsers)
         connectedUsers = EventsController.join({ socket, connectedUsers })
     })
 
