@@ -5,21 +5,22 @@ const Events = require('../../Constants/Events')
 const join = ({ socket, connectedUsers }) => {
     try {
         const usersList = { ...connectedUsers }
-        connectedUsers = UserControllers.addUser(socket.id, connectedUsers)
-
+        const newList = UserControllers.addUser(socket.id, connectedUsers)
         //send user object to joined
         socket.emit(Events.CLIENT_JOIN, {
             ok: 1,
             data: {
-                user: connectedUsers[socket.id],
+                user: newList[socket.id],
                 usersList,
                 msg: 'Welcome to chatroom',
             },
         })
         socket.broadcast.emit(Events.USER_JOIN, {
             ok: 1,
-            data: { user: connectedUsers[socket.id] },
+            data: { user: newList[socket.id] },
         })
+        // console.log(newList)
+        return newList
     } catch (err) {
         console.log(err)
         socket.emit(Events.JOIN, {
@@ -29,7 +30,6 @@ const join = ({ socket, connectedUsers }) => {
             },
         })
     }
-    return connectedUsers
 }
 
 const disconnect = ({ socket, connectedUsers }) => {
@@ -60,6 +60,7 @@ const changeUserName = ({ socket, newUserName, connectedUsers }) => {
                 username: connectedUsers[socket.id].username,
             },
         })
+        return connectedUsers
     } catch (err) {}
 }
 
