@@ -4,7 +4,7 @@ const Events = require('../../Constants/Events')
 
 const join = ({ socket, connectedUsers }) => {
     try {
-        const userLists = { ...connectedUsers }
+        const usersList = { ...connectedUsers }
         connectedUsers = UserControllers.addUser(socket.id, connectedUsers)
 
         //send user object to joined
@@ -12,7 +12,7 @@ const join = ({ socket, connectedUsers }) => {
             ok: 1,
             data: {
                 user: connectedUsers[socket.id],
-                userLists,
+                usersList,
                 msg: 'Welcome to chatroom',
             },
         })
