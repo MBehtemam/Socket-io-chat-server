@@ -4,6 +4,7 @@
     "description": "Chat Server with socket.io and Express",
     "main": "index.js",
     "scripts": {
+        "start": "node index",
         "test": "jest",
         "test:watch": "jest --watch"
     },
